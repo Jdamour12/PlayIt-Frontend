@@ -144,57 +144,65 @@ const EditProfile = ({ onClose }) => {
     <div className="editprofile-wrapper">
       <h3 className="editprofile-title">Edit Profile</h3>
       <p>Update your profile information</p>
-
       <form className="editprofile-form" onSubmit={handleSubmit}>
-        {/* Profile Image */}
-        <div className="profile-image-container">
-          {previewImage ? (
-            <img src={previewImage} alt="Profile" className="profile-image" />
-          ) : (
-            <div className="profile-placeholder">
-              <CiUser size={40} />
+        {/* Only show profile fields if not changing password */}
+        {!showPasswordFields && (
+          <>
+            {/* Profile Image */}
+            <div className="profile-image-container">
+              {previewImage ? (
+                <img
+                  src={previewImage}
+                  alt="Profile"
+                  className="profile-image"
+                />
+              ) : (
+                <div className="profile-placeholder">
+                  <CiUser size={40} />
+                </div>
+              )}
+              <label htmlFor="image-upload" className="image-upload-icon">
+                📷
+              </label>
+              <input
+                id="image-upload"
+                type="file"
+                accept="image/*"
+                onChange={handleImageChange}
+                style={{ display: "none" }}
+              />
             </div>
-          )}
-          <label htmlFor="image-upload" className="image-upload-icon">
-            📷
-          </label>
-          <input
-            id="image-upload"
-            type="file"
-            accept="image/*"
-            onChange={handleImageChange}
-            style={{ display: "none" }}
-          />
-        </div>
 
-        {/* Error Message */}
-        {error && <div className="editprofile-error">{error}</div>}
+            {/* Error Message */}
+            {error && <div className="editprofile-error">{error}</div>}
 
-        {/* Name Field */}
-        <div className="form-group">
-          <label htmlFor="name">Full Name</label>
-          <input
-            id="name"
-            type="text"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            placeholder="Enter your name"
-            className="form-input"
-          />
-        </div>
+            {/* Name Field */}
+            <div className="form-group">
+              <label htmlFor="name">Full Name</label>
+              <input
+                id="name"
+                type="text"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                placeholder="Enter your name"
+                className="form-input"
+              />
+            </div>
 
-        {/* Email Field */}
-        <div className="form-group">
-          <label htmlFor="email">Email</label>
-          <input
-            id="email"
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="Enter your email"
-            className="form-input"
-          />
-        </div>
+            {/* Email Field */}
+            <div className="form-group">
+              <label htmlFor="email">Email</label>
+              <input
+                id="email"
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="Enter your email"
+                className="form-input"
+              />
+            </div>
+          </>
+        )}
 
         {/* Password Toggle */}
         <button
@@ -205,9 +213,11 @@ const EditProfile = ({ onClose }) => {
           {showPasswordFields ? "Hide" : "Change"} Password
         </button>
 
-        {/* Password Fields */}
+        {/* Only show password fields if toggled */}
         {showPasswordFields && (
           <>
+            {/* Error Message */}
+            {error && <div className="editprofile-error">{error}</div>}
             <div className="form-group">
               <label htmlFor="current-password">Current Password</label>
               <input
